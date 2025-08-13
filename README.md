@@ -23,7 +23,6 @@ The project demonstrates:
 ## Setup Instructions
 
 1. **Clone the repository**
-
     ```bash
    git clone https://github.com/RashYus1/final_project.git
    cd final_project
