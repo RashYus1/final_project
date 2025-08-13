@@ -4,6 +4,15 @@ CS50 Final Project – Show search app built with Python, SQLite, SQL, HTML, Jin
 
 This project is a Flask web app that lets users search for TV shows.
 
+## Project Overview
+
+This Flask web app lets users search for TV shows by title. It stores data in a local SQLite database (`shows.db`) and returns results as JSON from a `/search?q=` endpoint. The homepage uses JavaScript (Fetch API) to call that endpoint and update the list instantly without a full page reload. The project demonstrates:
+
+- Python + Flask for routing and server logic
+- SQLite + SQL for data storage and queries
+- HTML + Jinja2 for templates
+- JavaScript (Fetch API) for AJAX
+
 ## Features
 
 - Search shows by title using AJAX
