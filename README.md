@@ -151,6 +151,8 @@ CREATE TABLE shows (
 
 ![Search G](screenshots/8-g-final-project-CS50.png)
 
+---
+
 ## 🚀 How to Run
 
 ### 1. Create a Virtual Environment
@@ -183,13 +185,17 @@ python3 app.py
 Go to:
 [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-#### Push Project to GitHub
+---
+
+#### 📤 Push Project to GitHub
 
 In VS Code terminal (Ubuntu/WSL):
 
 git add .
 git commit -m "Final project submission"
 git push origin main
+
+---
 
 ## 🔮 Future Improvements
 
@@ -199,6 +205,8 @@ A ratings and review system for community interaction.
 Pagination for search results.
 Drag-and-drop database management via a web interface.
 A dark mode for better accessibility.
+
+---
 
 ## 🤖 AI Disclosure
 
