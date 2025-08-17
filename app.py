@@ -2,7 +2,7 @@
 CS50 Final Project — Show Search App (Backend)
 Author: Rashad Yusufzai (RY-IT / RashYus1)
 City, Country: Gothenburg, Sweden
-Date: 2025-08-13
+Date: 2025-08-17
 
 Description:
     This is the backend for the Show Search App, built using Flask and SQLite.

@@ -4,13 +4,13 @@
 **GitHub:** RashYus1
 **edX / CS50 username:** RY-IT
 **City, Country:** Gothenburg, Sweden
-**Date:** 2025-08-16
+**Date:** 2025-08-17
 
 ---
 
 ## 📹 Video Demo
 
-**URL:** `<PASTE YOUR YOUTUBE URL HERE after upload>`
+**URL:** <https://youtu.be/Cxk2oo1hlH4>
 
 ---
 
