@@ -1,3 +1,18 @@
+<!-- 
+    CS50 Final Project — Show Search App
+    Developed by: Rashad Yusufzai (RY-IT / RashYus1)
+    City, Country: Gothenburg, Sweden
+    Date: 2025-08-13
+
+    Note:
+    Some layout ideas and documentation formatting were guided by AI tools.
+    All HTML, CSS, and JavaScript logic was written and customized manually.
+
+    Description: This page is the search results template for the Show Search App. 
+    It dynamically displays the shows returned from the search query in a list or card format.
+    Technologies used: HTML, CSS, JavaScript, Flask, Jinja2
+-->
+
 {% for show in shows %}
     <li>{{ show["title"] }}</li>
 {% endfor %}

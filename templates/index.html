@@ -1,49 +1,124 @@
+<!-- 
+CS50 Final Project — Show Search App
+Developed by: Rashad Yusufzai (RY-IT / RashYus1)
+City, Country: Gothenburg, Sweden
+Date: 2025-08-13
+
+Note:
+Some layout ideas and documentation formatting were guided by AI tools.
+All HTML, CSS, and JavaScript logic was written and customized manually.
+
+Description:
+This page is the frontend for the Show Search App. Users can search for shows
+and see popular shows, displayed in card format with images, genres, years, and ratings.
+
+Technologies used: HTML, CSS, JavaScript, Flask, Jinja2
+-->
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta name="viewport" content="initial-scale=1, width=device-width">
-    <title>Shows</title>
+    <meta charset="UTF-8">
+    <title>Show Search App For CS50 Final Project</title>
+    <!-- 
+    CSS Styles
+    -----------------------
+    Defines the layout and look of the page, including grid layout for cards,
+    hover effects, input field styling, and responsive design.
+    -->
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #edbebe; }
+        header { background: #9480ee; color: rgb(249, 249, 249); padding: 20px; text-align: center; }
+        main { padding: 20px; }
+        input[type="text"] { width: calc(100% - 0.1cm); padding: 12px; margin-bottom: 20px; font-size: 16px; border: 3px solid #6e7df1; border-radius: 5px; box-sizing: border-box; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: rgb(118, 147, 234); border-radius: 10px; padding: 15px; box-shadow: 0 2px 10px rgba(28, 28, 28, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; opacity: 0; transform: translateY(10px); }
+        .card.show { opacity: 1; transform: translateY(0); }
+        .card:hover { transform: scale(1.05) rotateX(3deg) rotateY(3deg); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
+        .card img { width: 100%; height: 200px; object-fit: contain; border-radius: 5px; transition: transform 0.3s, filter 0.3s; }
+        .card img:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .card h2 { margin: 10px 0 5px 0; font-size: 18px; }
+        .card p { margin: 5px 0; font-size: 14px; }
+        .rating-stars { color: #ffcc00; font-weight: 700; letter-spacing: 1px; }
+        footer { text-align: center; padding: 15px; background: #2c3035; color: rgb(255, 255, 255); margin-top: 30px; }
+    </style>
 </head>
-
 <body>
+<!-- Header Section -->
+<header>
+    <h1>Show Search App For CS50 Final Project</h1>
+    <p>Built with Python, SQLite, SQL, HTML, Jinja2, CSS, JavaScript, and Flask by Rashad Yusufzai</p>
+</header>
+<!-- Main Content -->
+<main>
+    <!-- Search Input -->
+    <input type="text" id="search" placeholder="Search for shows...">
 
-    <input id="search" autocomplete="off" autofocus placeholder="Search shows" type="text">
+    <!-- Grid container where show cards will appear -->
+    <div class="grid" id="shows"></div>
+</main>
 
-    <ul id="results"></ul>
+<!-- Footer -->
+<footer>
+    Developed by Rashad Yusufzai - CS50 Final Project Harvard University
+</footer>
 
-    <script>
-        const input = document.getElementById('search');
-        const resultsList = document.getElementById('results');
+<!-- 
+    JavaScript Section
+    -----------------------
+    Handles:
+    1. Fetching shows from /popular and /search endpoints
+    2. Rendering each show as a card with title, image, genre, year, rating, and description
+    3. Handling empty results using the default "No results found" card
+    -->
+<script>
+async function fetchShows(url) {
+    const response = await fetch(url);
+    const shows = await response.json();
+    const container = document.getElementById("shows");
+    container.innerHTML = "";
 
-        input.addEventListener('input', async function () {
-            const query = input.value.trim();
+    shows.forEach(show => {
+        const card = document.createElement("div");
+        card.className = "card";
 
-            if (query.length === 0) {
-                resultsList.innerHTML = '';
-                return;
-            }
+        // Generate rating stars
+        const ratingNum = Number(show.rating) || 0;
+        const starsCount = Math.round(Math.max(0, Math.min(10, ratingNum)) / 2);
+        const stars = '★'.repeat(starsCount) + '☆'.repeat(5 - starsCount);
 
-            try {
-                const response = await fetch('/search?q=' + encodeURIComponent(query));
-                const shows = await response.json();
-                let html = '';
-                for (let show of shows) {
-                    // Escape HTML special characters to prevent XSS
-                    let title = show.title
-                        .replace(/&/g, '&amp;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;');
-                    html += `<li>${title}</li>`;
-                }
-                resultsList.innerHTML = html;
-            } catch (error) {
-                console.error('Error fetching search results:', error);
-                resultsList.innerHTML = '<li>Error loading results</li>';
-            }
-        });
-    </script>
+        // Default image fallback
+        const imageUrl = show.image_url || "/static/images/broken_image.png";
 
+        // Populate card
+        card.innerHTML = `
+            <img src="${imageUrl}" alt="${show.title}">
+            <h2>${show.title}</h2>
+            <p><strong>Genre:</strong> ${show.genre || "N/A"}</p>
+            <p><strong>Year:</strong> ${show.year || "N/A"}</p>
+            <p><strong>Rating:</strong> <span class="rating-stars">${stars}</span> 
+            <small style="color:#222">(${ratingNum}/10)</small></p>
+            <p>${show.description || ""}</p>
+        `;
+        container.appendChild(card);
+
+        // Add fade-in effect
+        setTimeout(() => card.classList.add("show"), 50);
+    });
+}
+
+// Fetch popular shows on page load
+window.onload = () => fetchShows("/popular");
+
+// Search functionality
+document.getElementById("search").addEventListener("input", (e) => {
+    const query = e.target.value;
+    if(query) {
+        fetchShows("/search?q=" + encodeURIComponent(query));
+    } else {
+        fetchShows("/popular");
+    }
+});
+</script>
 </body>
-
 </html>
